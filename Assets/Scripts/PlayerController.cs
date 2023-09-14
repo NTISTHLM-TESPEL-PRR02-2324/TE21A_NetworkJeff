@@ -22,6 +22,14 @@ public class PlayerController : NetworkBehaviour
   float timeBetweenShots = 0.5f;
   float timeSinceLastShot = 0f;
 
+  void Start()
+  {
+    if (isLocalPlayer)
+    {
+      GetComponent<Renderer>().material.color = new Color(0.5f, 1, 0);
+    }
+  }
+
   void Update()
   {
 
@@ -52,8 +60,11 @@ public class PlayerController : NetworkBehaviour
 
   }
 
+  [Command]
   void Fire()
   {
     GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+
+    NetworkServer.Spawn(bullet);
   }
 }
